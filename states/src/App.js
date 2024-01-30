@@ -9,6 +9,7 @@ function App() {
   const [selectedCity, setSelectedCity] = useState('');
 
   useEffect(() => {
+    // Fetch all countries on initial render
     fetchCountries();
   }, []);
 
@@ -24,7 +25,7 @@ function App() {
 
   const fetchStates = async (countryName) => {
     try {
-      const response = await fetch(`https://crio-location-selector.onrender.com/country=${encodeURIComponent(countryName)}/states`);
+      const response = await fetch(`https://crio-location-selector.onrender.com/country=${countryName}/states`);
       const data = await response.json();
       setStates(data);
     } catch (error) {
@@ -34,7 +35,7 @@ function App() {
 
   const fetchCities = async (countryName, stateName) => {
     try {
-      const response = await fetch(`https://crio-location-selector.onrender.com/country=${encodeURIComponent(countryName)}/state=${encodeURIComponent(stateName)}/cities`);
+      const response = await fetch(`https://crio-location-selector.onrender.com/country=${countryName}/state=${stateName}/cities`);
       const data = await response.json();
       setCities(data);
     } catch (error) {
@@ -64,7 +65,7 @@ function App() {
 
   return (
     <div>
-      <h1>Select Loaction</h1>
+      <h1>Select Location</h1>
       <select value={selectedCountry} onChange={handleCountryChange}>
         <option value="">Select Country</option>
         {countries.map(country => (
