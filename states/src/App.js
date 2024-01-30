@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useState, useEffect } from 'react';
 
 function App() {
@@ -10,7 +9,6 @@ function App() {
   const [selectedCity, setSelectedCity] = useState('');
 
   useEffect(() => {
-    // Fetch all countries on initial render
     fetchCountries();
   }, []);
 
@@ -19,7 +17,7 @@ function App() {
       const response = await fetch('https://crio-location-selector.onrender.com/countries');
       const data = await response.json();
       setCountries(data);
-    } catch (error) {
+    } catch (error) { 
       console.error('Error fetching countries:', error);
     }
   };
@@ -56,7 +54,7 @@ function App() {
     const stateName = e.target.value;
     setSelectedState(stateName);
     setSelectedCity('');
-    fetchCities(selectedCountry, stateName);
+    fetchCities(selectedCountry, stateName); // Potential debugging point: Ensure selectedCountry has been updated
   };
 
   const handleCityChange = (e) => {
@@ -86,7 +84,7 @@ function App() {
         ))}
       </select>
       {selectedCity && (
-         <p>You Selected {selectedCity}, {selectedState}, {selectedCountry}</p>
+        <p>You Selected {selectedCity}, {selectedState}, {selectedCountry}</p>
       )}
     </div>
   );
