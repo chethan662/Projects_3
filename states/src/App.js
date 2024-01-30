@@ -10,82 +10,84 @@ function App() {
   const [selectedCity, setSelectedCity] = useState('');
 
   useEffect(() => {
+    // Fetch all countries on initial render
     fetchCountries();
   }, []);
 
-  const fetchCountries = () => {
-    fetch('https://crio-location-selector.onrender.com/countries')
-      .then(response => response.json())
-      .then(data => setCountries(data))
-      .catch(error => console.error('Error fetching countries:', error));
+  const fetchCountries = async () => {
+    try {
+      const response = await fetch('https://crio-location-selector.onrender.com/countries');
+      const data = await response.json();
+      setCountries(data);
+    } catch (error) {
+      console.error('Error fetching countries:', error);
+    }
   };
 
-  const fetchStates = (countryName) => {
-    fetch(`https://crio-location-selector.onrender.com/country=${countryName}/states`)
-      .then(response => response.json())
-      .then(data => setStates(data))
-      .catch(error => console.error('Error fetching states:', error));
+  const fetchStates = async (countryName) => {
+    try {
+      const response = await fetch(`https://crio-location-selector.onrender.com/country=${countryName}/states`);
+      const data = await response.json();
+      setStates(data);
+    } catch (error) {
+      console.error('Error fetching states:', error);
+    }
   };
 
-  const fetchCities = (countryName, stateName) => {
-    fetch(`https://crio-location-selector.onrender.com/country=${countryName}/state=${stateName}/cities`)
-      .then(response => response.json())
-      .then(data => setCities(data))
-      .catch(error => console.error('Error fetching cities:', error));
+  const fetchCities = async (countryName, stateName) => {
+    try {
+      const response = await fetch(`https://crio-location-selector.onrender.com/country=${countryName}/state=${stateName}/cities`);
+      const data = await response.json();
+      setCities(data);
+    } catch (error) {
+      console.error('Error fetching cities:', error);
+    }
   };
 
-  const handleCountryChange = event => {
-    const countryName = event.target.value;
+  const handleCountryChange = (e) => {
+    const countryName = e.target.value;
     setSelectedCountry(countryName);
     setSelectedState('');
     setSelectedCity('');
-    setStates([]);
-    setCities([]);
-    if (countryName) {
-      fetchStates(countryName);
-    }
+    fetchStates(countryName);
   };
 
-  const handleStateChange = event => {
-    const stateName = event.target.value;
+  const handleStateChange = (e) => {
+    const stateName = e.target.value;
     setSelectedState(stateName);
     setSelectedCity('');
-    setCities([]);
-    if (stateName) {
-      fetchCities(selectedCountry, stateName);
-    }
+    fetchCities(selectedCountry, stateName);
   };
 
-  const handleCityChange = event => {
-    setSelectedCity(event.target.value);
+  const handleCityChange = (e) => {
+    const cityName = e.target.value;
+    setSelectedCity(cityName);
   };
 
   return (
     <div>
       <h1>Select Location</h1>
       <select value={selectedCountry} onChange={handleCountryChange}>
-        <option value="" disabled>Select Country</option>
+        <option value="">Select Country</option>
         {countries.map(country => (
-          <option key={country.code} value={country.name}>{country.name}</option>
+          <option key={country} value={country}>{country}</option>
         ))}
       </select>
       <select value={selectedState} onChange={handleStateChange} disabled={!selectedCountry}>
-        <option value="" disabled>Select State</option>
+        <option value="">Select State</option>
         {states.map(state => (
-          <option key={state.code} value={state.name}>{state.name}</option>
+          <option key={state} value={state}>{state}</option>
         ))}
       </select>
       <select value={selectedCity} onChange={handleCityChange} disabled={!selectedState}>
-        <option value="" disabled>Select City</option>
+        <option value="">Select City</option>
         {cities.map(city => (
-          <option key={city.code} value={city.name}>{city.name}</option>
+          <option key={city} value={city}>{city}</option>
         ))}
       </select>
-      <div>
-        {selectedCity && (
-          <p>You selected {selectedCity}, {selectedState}, {selectedCountry}</p>
-        )}
-      </div>
+      {selectedCity && (
+         <p>You Selected {selectedCity}, {selectedState}, {selectedCountry}</p>
+      )}
     </div>
   );
 }
