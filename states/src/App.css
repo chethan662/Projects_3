@@ -1,0 +1,20 @@
+.city-selector{
+    text-align: center;
+    margin-top: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.result{
+margin-top: 20px;
+font-size: 20px;    
+}
+.dropdown{
+    padding: 10px;
+    font-size: 16px;
+}
+.highlight{
+    font-weight: bold;
+    font-size: 24px;
+}
+.fade{
+    color: #888;
+}

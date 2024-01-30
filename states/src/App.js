@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './App.css';
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -64,28 +65,38 @@ function App() {
   };
 
   return (
-    <div>
+    <div className='city-selector'>
       <h1>Select Location</h1>
-      <select value={selectedCountry} onChange={handleCountryChange}>
+      <select value={selectedCountry} onChange={handleCountryChange} className='dropdown'>
         <option value="">Select Country</option>
         {countries.map(country => (
           <option key={country} value={country}>{country}</option>
         ))}
       </select>
-      <select value={selectedState} onChange={handleStateChange} disabled={!selectedCountry}>
+      <select value={selectedState} onChange={handleStateChange} disabled={!selectedCountry} className='dropdown'>
         <option value="">Select State</option>
         {states.map(state => (
           <option key={state} value={state}>{state}</option>
         ))}
       </select>
-      <select value={selectedCity} onChange={handleCityChange} disabled={!selectedState}>
+      <select value={selectedCity} onChange={handleCityChange} disabled={!selectedState}className='dropdown'>
         <option value="">Select City</option>
         {cities.map(city => (
           <option key={city} value={city}>{city}</option>
         ))}
       </select>
       {selectedCity && (
-        <p>You Selected {selectedCity}, {selectedState}, {selectedCountry}</p>
+        <h2 className="result">
+
+        You selected <span className="highlight">{selectedCity}</span>,
+        
+        <span className="fade">
+        
+        {selectedState}, {selectedCountry}
+        
+        </span>
+        
+        </h2>
       )}
     </div>
   );
