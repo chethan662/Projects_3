@@ -1,14 +1,7 @@
 import './App.css';
 import React, { useState, useEffect } from "react";
 
-function CountryCard({ name, flag }) {
-  return (
-    <div className="countryCard">
-      <img src={flag} alt={`${name} Flag`} />
-      <h3>{name}</h3>
-    </div>
-  );
-}
+
 
 function App() {
   const [countries, setCountries] = useState([]);
@@ -17,7 +10,12 @@ function App() {
 
   useEffect(() => {
     fetch("https://restcountries.com/v3.1/all")
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch country data");
+        }
+        return response.json();
+      })
       .then((data) => {
         setCountries(data);
         setFilteredCountries(data);
@@ -33,6 +31,13 @@ function App() {
     );
     setFilteredCountries(filtered);
   };
+
+  const CountryCard = ({ name, flag }) => (
+    <div className="countryCard">
+      <img src={flag} alt={`${name} Flag`} />
+      <h3>{name}</h3>
+    </div>
+  );
 
   return (
     <div>
