@@ -35,7 +35,7 @@ function App() {
   const CountryCard = ({ name, flag }) => (
     <div className="countryCard">
       <img src={flag} alt={`${name} Flag`} />
-      <h3>{name}</h3>
+      <p>{name}</p>
     </div>
   );
 
